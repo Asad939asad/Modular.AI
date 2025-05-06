@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ECG Analyzer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            background-image: url("{{ url_for('static', filename='images/images (20).jpeg') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .overlay {
+            background: rgba(255, 255, 255, 0.4); /* semi-transparent */
+            backdrop-filter: blur(10px); /* ✅ background blur effect */
+            -webkit-backdrop-filter: blur(10px); /* Safari support */
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            width: 90%;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        input[type="file"] {
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .preview {
+            margin-top: 30px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .preview img {
+            width: 100%;
+            height: auto;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(206, 221, 231, 0.1);
+        }
+
+        .label {
+            margin-top: 20px;
+            font-size: 20px;
+            color: rgb(0, 0, 0);
+            font-weight: bold;
+            background-color: rgb(227, 241, 255);
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <h1>📈 ECG Analyzer</h1>
+
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="ecg_image" accept="image/*" required><br>
+            <button type="submit">Analyze</button>
+        </form>
+
+        {% if image_filename %}
+            <div class="preview">
+                <h3>Uploaded ECG Image:</h3>
+                <img src="{{ url_for('static', filename='uploads/' + image_filename) }}" alt="ECG Image">
+            </div>
+        {% endif %}
+
+        {% if label %}
+            <div class="label">🔍 Predicted Result: {{ label }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>

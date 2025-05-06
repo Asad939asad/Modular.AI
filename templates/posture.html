@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Posture Corrector</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url("{{ url_for('static', filename='/images/360_F_429356296_CVQ5LkC6Pl55kUNLqLisVKgTw9vjyif1.jpg') }}") no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+        }
+
+        .overlay {
+            background-color: rgba(255, 255, 255, 0.8);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+
+        video, canvas {
+            border: 3px solid #3498db;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            background-color: #2ecc71;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <h1>🧍‍♂️ Posture Corrector</h1>
+        
+        <!-- Reference video section -->
+        <video id="referenceVideo" autoplay loop muted controls>
+            <source src="{{ url_for('static', filename='videos/annotated_output12.webm') }}" type="video/webm">
+
+            Your browser does not support the video tag.
+        </video>
+
+        <!-- Live camera feed section (hidden initially) -->
+        <video id="cameraFeed" autoplay playsinline style="display: none;"></video>
+
+        <button onclick="switchToCamera()">Use Camera</button>
+    </div>
+
+    <script>
+        function switchToCamera() {
+            const referenceVideo = document.getElementById('referenceVideo');
+            const cameraFeed = document.getElementById('cameraFeed');
+
+            // Hide the reference video
+            referenceVideo.style.display = 'none';
+            // Show the camera feed
+            cameraFeed.style.display = 'block';
+
+            // Access the webcam
+            navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+                .then(function (stream) {
+                    cameraFeed.srcObject = stream;
+                })
+                .catch(function (err) {
+                    alert("Error accessing camera: " + err);
+                });
+        }
+    </script>
+</body>
+</html>
